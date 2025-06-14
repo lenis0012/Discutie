@@ -14,7 +14,7 @@ export default function ChatLayout () {
   ])
   const [sidebarOpen, setSidebarOpen] = useState(true)
 
-  const handleSendMessage = (content) => {
+  const handleSendMessage = async (content) => {
     const newMessage = {
       id: Date.now(),
       type: 'user',
@@ -25,15 +25,23 @@ export default function ChatLayout () {
     setMessages(prev => [...prev, newMessage])
 
     // Simulate AI response (replace with actual API call)
-    setTimeout(() => {
-      const aiResponse = {
-        id: Date.now() + 1,
-        type: 'ai',
-        content: 'This is a simulated AI response. In a real implementation, this would connect to your AI service.',
-        timestamp: new Date()
-      }
-      setMessages(prev => [...prev, aiResponse])
-    }, 1000)
+    const res = await fetch('/api/chat', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        prompt: content
+      })
+    }).then(res => res.json())
+
+    const aiResponse = {
+      id: Date.now() + 1,
+      type: 'ai',
+      content: res.text,
+      timestamp: new Date()
+    }
+    setMessages(prev => [...prev, aiResponse])
   }
 
   return (

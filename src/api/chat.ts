@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
 import { anthropic } from '@ai-sdk/anthropic'
-import { generateText } from 'ai'
+import { generateText, streamText } from 'ai'
 
 export async function submitChat (req: Request, res: Response) {
   const { text } = await generateText({
@@ -8,9 +8,5 @@ export async function submitChat (req: Request, res: Response) {
     prompt: req.body.prompt
   })
 
-  res
-    .json({
-      text
-    })
-    .end()
+  res.json({ text }).end()
 }

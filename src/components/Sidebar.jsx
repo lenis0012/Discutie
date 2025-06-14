@@ -11,14 +11,14 @@ export default function Sidebar ({ isOpen, onClose }) {
   const [activeConversation, setActiveConversation] = useState(1)
 
   return (
-    <div className='h-full bg-white border-r border-gray-200 flex flex-col'>
+    <div className='h-full bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 flex flex-col'>
       {/* Sidebar Header */}
-      <div className='p-4 border-b border-gray-200'>
+      <div className='p-4 border-b border-gray-200 dark:border-gray-700'>
         <div className='flex items-center justify-between mb-4'>
-          <h2 className='text-lg font-semibold text-gray-900'>Conversations</h2>
+          <h2 className='text-lg font-semibold text-gray-900 dark:text-gray-100'>Conversations</h2>
           <button
             onClick={onClose}
-            className='p-1 hover:bg-gray-100 rounded-md transition-colors'
+            className='p-1 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors'
           >
             <svg className='w-5 h-5' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
               <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M6 18L18 6M6 6l12 12' />
@@ -44,17 +44,17 @@ export default function Sidebar ({ isOpen, onClose }) {
               onClick={() => setActiveConversation(conversation.id)}
               className={`p-3 rounded-lg cursor-pointer transition-colors mb-2 ${
                 activeConversation === conversation.id
-                  ? 'bg-blue-50 border border-blue-200'
-                  : 'hover:bg-gray-50'
+                  ? 'bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-700'
+                  : 'hover:bg-gray-50 dark:hover:bg-gray-700'
               }`}
             >
-              <h3 className='font-medium text-gray-900 text-sm truncate mb-1'>
+              <h3 className='font-medium text-gray-900 dark:text-gray-100 text-sm truncate mb-1'>
                 {conversation.title}
               </h3>
-              <p className='text-xs text-gray-500 truncate mb-1'>
+              <p className='text-xs text-gray-500 dark:text-gray-400 truncate mb-1'>
                 {conversation.preview}
               </p>
-              <span className='text-xs text-gray-400'>
+              <span className='text-xs text-gray-400 dark:text-gray-500'>
                 {conversation.timestamp}
               </span>
             </div>
@@ -63,17 +63,17 @@ export default function Sidebar ({ isOpen, onClose }) {
       </div>
 
       {/* Sidebar Footer */}
-      <div className='p-4 border-t border-gray-200'>
+      <div className='p-4 border-t border-gray-200 dark:border-gray-700'>
         <div className='flex items-center gap-3'>
           <div className='w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center'>
             <span className='text-white text-sm font-medium'>U</span>
           </div>
           <div className='flex-1'>
-            <p className='text-sm font-medium text-gray-900'>User</p>
-            <p className='text-xs text-gray-500'>Free Plan</p>
+            <p className='text-sm font-medium text-gray-900 dark:text-gray-100'>User</p>
+            <p className='text-xs text-gray-500 dark:text-gray-400'>Free Plan</p>
           </div>
-          <button className='p-1 hover:bg-gray-100 rounded-md transition-colors'>
-            <svg className='w-4 h-4 text-gray-500' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
+          <button className='p-1 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors'>
+            <svg className='w-4 h-4 text-gray-500 dark:text-gray-400' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
               <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z' />
             </svg>
           </button>

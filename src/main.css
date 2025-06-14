@@ -16,6 +16,21 @@
   --border-hover: #d1d5db;
 }
 
+/* Dark theme variables */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --text-primary: #f9fafb;
+    --text-secondary: #d1d5db;
+    --text-light: #9ca3af;
+    --bg-primary: #111827;
+    --bg-secondary: #1f2937;
+    --bg-tertiary: #374151;
+    --border-color: #374151;
+    --border-hover: #4b5563;
+    --secondary-blue: #1e3a8a;
+  }
+}
+
 * {
   box-sizing: border-box;
 }
@@ -43,6 +58,16 @@ body {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+}
+
+/* Dark theme gradient text - brighter and more vibrant */
+@media (prefers-color-scheme: dark) {
+  .gradient-text {
+    background: linear-gradient(135deg, #3b82f6, #60a5fa);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
 }
 
 .glass-effect {

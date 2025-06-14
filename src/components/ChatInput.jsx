@@ -44,11 +44,11 @@ export default function ChatInput ({ onSendMessage }) {
     <div className='p-4'>
       <div className='max-w-4xl mx-auto'>
         <form onSubmit={handleSubmit} className='relative'>
-          <div className='flex items-end gap-3 bg-white border border-gray-300 rounded-2xl shadow-sm focus-within:border-blue-500 focus-within:ring-1 focus-within:ring-blue-500 transition-colors'>
+          <div className='flex items-end gap-3 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-2xl shadow-sm focus-within:border-blue-500 focus-within:ring-1 focus-within:ring-blue-500 transition-colors'>
             {/* Attachment Button */}
             <button
               type='button'
-              className='flex-shrink-0 p-3 text-gray-400 hover:text-gray-600 transition-colors'
+              className='flex-shrink-0 p-3 text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 transition-colors'
               title='Attach file'
             >
               <svg className='w-5 h-5' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
@@ -66,7 +66,7 @@ export default function ChatInput ({ onSendMessage }) {
                 onCompositionStart={handleCompositionStart}
                 onCompositionEnd={handleCompositionEnd}
                 placeholder='Type your message here... (Shift + Enter for new line)'
-                className='w-full resize-none border-0 outline-none py-3 px-0 text-gray-900 placeholder-gray-500 bg-transparent min-h-[20px] max-h-[200px]'
+                className='w-full resize-none border-0 outline-none py-3 px-0 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 bg-transparent min-h-[20px] max-h-[200px]'
                 rows={1}
                 style={{ height: 'auto' }}
               />
@@ -79,7 +79,7 @@ export default function ChatInput ({ onSendMessage }) {
               className={`flex-shrink-0 p-3 rounded-xl m-1 transition-all ${
                 message.trim() && !isComposing
                   ? 'bg-blue-600 hover:bg-blue-700 text-white shadow-sm'
-                  : 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                  : 'bg-gray-100 dark:bg-gray-700 text-gray-400 dark:text-gray-500 cursor-not-allowed'
               }`}
               title='Send message'
             >
@@ -91,11 +91,11 @@ export default function ChatInput ({ onSendMessage }) {
 
           {/* Character count and tips */}
           <div className='flex justify-between items-center mt-2 px-1'>
-            <div className='text-xs text-gray-500'>
-              Press <kbd className='px-1.5 py-0.5 bg-gray-100 rounded text-gray-600'>Enter</kbd> to send,
-              <kbd className='px-1.5 py-0.5 bg-gray-100 rounded text-gray-600 ml-1'>Shift + Enter</kbd> for new line
+            <div className='text-xs text-gray-500 dark:text-gray-400'>
+              Press <kbd className='px-1.5 py-0.5 bg-gray-100 dark:bg-gray-700 rounded text-gray-600 dark:text-gray-300'>Enter</kbd> to send,
+              <kbd className='px-1.5 py-0.5 bg-gray-100 dark:bg-gray-700 rounded text-gray-600 dark:text-gray-300 ml-1'>Shift + Enter</kbd> for new line
             </div>
-            <div className='text-xs text-gray-400'>
+            <div className='text-xs text-gray-400 dark:text-gray-500'>
               {message.length > 0 && `${message.length} characters`}
             </div>
           </div>
@@ -106,21 +106,21 @@ export default function ChatInput ({ onSendMessage }) {
           <button
             type='button'
             onClick={() => setMessage('Can you help me with ')}
-            className='px-3 py-1.5 text-sm bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg transition-colors'
+            className='px-3 py-1.5 text-sm bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 rounded-lg transition-colors'
           >
             💡 Get help with...
           </button>
           <button
             type='button'
             onClick={() => setMessage('Explain how ')}
-            className='px-3 py-1.5 text-sm bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg transition-colors'
+            className='px-3 py-1.5 text-sm bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 rounded-lg transition-colors'
           >
             🔧 Explain how...
           </button>
           <button
             type='button'
             onClick={() => setMessage('What are the best practices for ')}
-            className='px-3 py-1.5 text-sm bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg transition-colors'
+            className='px-3 py-1.5 text-sm bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 rounded-lg transition-colors'
           >
             🎨 Best practices for...
           </button>

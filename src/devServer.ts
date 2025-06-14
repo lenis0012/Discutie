@@ -1,4 +1,5 @@
 import express from 'express'
+import bodyParser from 'body-parser'
 import * as process from 'node:process'
 import { createServer as createViteServer } from 'vite'
 import * as fs from 'node:fs/promises'
@@ -17,6 +18,8 @@ async function createServer () {
   })
 
   app.use(vite.middlewares)
+
+  app.use(bodyParser.json())
   apiRouter(app)
 
   app.use('*all', async (req, res, next) => {

@@ -28,7 +28,14 @@ async function createServer () {
       .end()
   })
 
-  await new Promise(resolve => app.listen(3000, resolve))
+  await new Promise(resolve => {
+    const server = app.listen(3000, resolve)
+    process.on('SIGTERM', () => {
+      console.debug('SIGTERM signal received')
+      console.info('Closing HTTP server...')
+      server.close()
+    })
+  })
 }
 
 createServer()

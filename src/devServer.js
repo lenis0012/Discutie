@@ -39,11 +39,15 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = require("express");
 var process = require("node:process");
 var vite_1 = require("vite");
+var fs = require("node:fs/promises");
+var path = require("node:path");
+var router_1 = require("./api/router");
 var app = (0, express_1.default)();
 var port = process.env.PORT || 3000;
 function createServer() {
     return __awaiter(this, void 0, void 0, function () {
         var vite;
+        var _this = this;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0: return [4 /*yield*/, (0, vite_1.createServer)({
@@ -55,6 +59,45 @@ function createServer() {
                 case 1:
                     vite = _a.sent();
                     app.use(vite.middlewares);
+                    app.use('/api', router_1.default);
+                    app.use('*all', function (req, res, next) { return __awaiter(_this, void 0, void 0, function () {
+                        var url, template, e_1;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0:
+                                    url = req.originalUrl;
+                                    _a.label = 1;
+                                case 1:
+                                    _a.trys.push([1, 4, , 5]);
+                                    return [4 /*yield*/, fs.readFile(path.resolve('index.html'), 'utf-8')
+                                        // 2. Apply Vite HTML transforms. This injects the Vite HMR client,
+                                        //    and also applies HTML transforms from Vite plugins, e.g. global
+                                        //    preambles from @vitejs/plugin-react
+                                    ];
+                                case 2:
+                                    template = _a.sent();
+                                    return [4 /*yield*/, vite.transformIndexHtml(url, template)
+                                        // 3. Send the rendered HTML back.
+                                    ];
+                                case 3:
+                                    // 2. Apply Vite HTML transforms. This injects the Vite HMR client,
+                                    //    and also applies HTML transforms from Vite plugins, e.g. global
+                                    //    preambles from @vitejs/plugin-react
+                                    template = _a.sent();
+                                    // 3. Send the rendered HTML back.
+                                    res.status(200).set({ 'Content-Type': 'text/html' }).end(template);
+                                    return [3 /*break*/, 5];
+                                case 4:
+                                    e_1 = _a.sent();
+                                    // If an error is caught, let Vite fix the stack trace so it maps back
+                                    // to your actual source code.
+                                    vite.ssrFixStacktrace(e_1);
+                                    next(e_1);
+                                    return [3 /*break*/, 5];
+                                case 5: return [2 /*return*/];
+                            }
+                        });
+                    }); });
                     app.listen(port, function () {
                         console.log("Example app listening at http://localhost:".concat(port));
                     });

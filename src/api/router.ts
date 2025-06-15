@@ -1,10 +1,10 @@
-import { Express } from 'express'
+import { Router, Request, Response } from 'express'
 import { submitChat } from './chat'
+import bodyParser from 'body-parser'
 
-export default function apiRouter (app: Express) {
-  app.post('/api/chat', submitChat)
-
-  app.get('/api/*all', (req, res) => {
+export default Router()
+  .use(bodyParser.json())
+  .post('/chat', submitChat)
+  .all('/*all', (req: Request, res: Response) => {
     res.status(404).end()
   })
-}

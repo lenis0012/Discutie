@@ -1,7 +1,8 @@
 import { useEffect, useRef } from 'react'
+import { UIMessage } from 'ai'
 import MessageBubble from './MessageBubble'
 
-export default function ChatContainer ({ messages }) {
+export default function ChatContainer ({ messages }: { messages: UIMessage[] }) {
   const messagesEndRef = useRef(null)
 
   const scrollToBottom = () => {
@@ -14,7 +15,7 @@ export default function ChatContainer ({ messages }) {
 
   if (messages.length === 0) {
     return (
-      <div className='flex-1 flex items-center justify-center p-8'>
+      <div className='h-full flex items-center justify-center p-8'>
         <div className='text-center max-w-md'>
           <div className='w-16 h-16 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center mx-auto mb-4'>
             <svg className='w-8 h-8 text-blue-600 dark:text-blue-400' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
@@ -45,7 +46,7 @@ export default function ChatContainer ({ messages }) {
   }
 
   return (
-    <div className='flex-1 overflow-y-auto px-4 py-6'>
+    <div className='h-full overflow-y-auto px-4 py-6'>
       <div className='max-w-4xl mx-auto space-y-6'>
         {messages.map((message) => (
           <MessageBubble key={message.id} message={message} />

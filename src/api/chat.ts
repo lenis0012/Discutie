@@ -3,10 +3,10 @@ import { anthropic } from '@ai-sdk/anthropic'
 import { generateText, streamText } from 'ai'
 
 export async function submitChat (req: Request, res: Response) {
-  const { text } = await generateText({
-    model: anthropic('claude-3-5-haiku-20241022'),
-    prompt: req.body.prompt
+  const result = streamText({
+    model: anthropic('claude-sonnet-4-20250514'),
+    messages: req.body.messages,
   })
 
-  res.json({ text }).end()
+  result.pipeTextStreamToResponse(res)
 }

@@ -1,5 +1,7 @@
 {
   "compilerOptions": {
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "moduleResolution": "bundler",
+    "jsx": "react-jsx"
   }
 }

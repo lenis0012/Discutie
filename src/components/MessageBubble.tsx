@@ -1,9 +1,11 @@
-export default function MessageBubble ({ message }) {
-  const isUser = message.type === 'user'
-  const isAI = message.type === 'ai'
+import { UIMessage } from 'ai'
 
-  const formatTime = (timestamp) => {
-    return new Date(timestamp).toLocaleTimeString([], {
+export default function MessageBubble ({ message }: { message: UIMessage }) {
+  const isUser = message.role === 'user'
+  const isAI = message.role === 'assistant'
+
+  const formatTime = (timestamp?: Date) => {
+    return (timestamp || new Date()).toLocaleTimeString([], {
       hour: '2-digit',
       minute: '2-digit'
     })
@@ -53,7 +55,7 @@ export default function MessageBubble ({ message }) {
           isUser ? 'text-right' : 'text-left'
         }`}
         >
-          {formatTime(message.timestamp)}
+          {formatTime(message.createdAt)}
         </div>
       </div>
 

@@ -1,47 +1,64 @@
 import { useState } from 'react'
 import Sidebar from './Sidebar'
-import ChatContainer from './ChatContainer'
+import ChatContainer from './ChatContainer.js'
 import ChatInput from './ChatInput'
+import { useChat } from '@ai-sdk/react'
+import { generateId } from 'ai'
 
 export default function ChatLayout () {
-  const [messages, setMessages] = useState([
-    {
-      id: 1,
-      type: 'ai',
-      content: 'Hello! I\'m your AI assistant. How can I help you today?',
-      timestamp: new Date()
-    }
-  ])
+  const { messages, append } = useChat({
+    initialMessages: [
+      {
+        id: generateId(),
+        content: 'Hello! I\'m your AI assistant. How can I help you today?',
+        role: 'assistant'
+      }
+    ],
+    streamProtocol: 'text'
+  })
+  // const [messages, setMessages] = useState([
+  //   {
+  //     id: 1,
+  //     type: 'ai',
+  //     content: 'Hello! I\'m your AI assistant. How can I help you today?',
+  //     timestamp: new Date()
+  //   }
+  // ])
   const [sidebarOpen, setSidebarOpen] = useState(true)
 
   const handleSendMessage = async (content) => {
-    const newMessage = {
-      id: Date.now(),
-      type: 'user',
+    await append({
+      id: generateId(),
       content,
-      timestamp: new Date()
-    }
-
-    setMessages(prev => [...prev, newMessage])
-
-    // Simulate AI response (replace with actual API call)
-    const res = await fetch('/api/chat', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        prompt: content
-      })
-    }).then(res => res.json())
-
-    const aiResponse = {
-      id: Date.now() + 1,
-      type: 'ai',
-      content: res.text,
-      timestamp: new Date()
-    }
-    setMessages(prev => [...prev, aiResponse])
+      role: 'user'
+    })
+    // const newMessage = {
+    //   id: Date.now(),
+    //   type: 'user',
+    //   content,
+    //   timestamp: new Date()
+    // }
+    //
+    // setMessages(prev => [...prev, newMessage])
+    //
+    // // Simulate AI response (replace with actual API call)
+    // const res = await fetch('/api/chat', {
+    //   method: 'POST',
+    //   headers: {
+    //     'Content-Type': 'application/json'
+    //   },
+    //   body: JSON.stringify({
+    //     prompt: content
+    //   })
+    // }).then(res => res.json())
+    //
+    // const aiResponse = {
+    //   id: Date.now() + 1,
+    //   type: 'ai',
+    //   content: res.text,
+    //   timestamp: new Date()
+    // }
+    // setMessages(prev => [...prev, aiResponse])
   }
 
   return (

@@ -1,7 +1,36 @@
-import express from 'express'
+import express, { Application, Request, Response } from 'express'
+import fs from 'node:fs/promises'
+import path from 'node:path'
+import apiRouter from './api/router'
 
-const app = express()
+async function createServer () {
+  const app: Application = express()
 
-app.listen(3000, () => {
-  console.log('Example app listening at http://localhost:3000')
-})
+  // Static assets
+  app.use('/assets', express.static('dist/assets', {
+    maxAge: '1w'
+  }))
+
+  // API
+  app.use('/api', apiRouter)
+
+  // SPA Catch-All
+  const indexHtml = await fs.readFile(path.resolve('dist', 'index.html'))
+  app.get('*all', async (req: Request, res: Response) => {
+    if (!req.accepts('html')) {
+      res.status(406).end()
+      return
+    }
+
+    res
+      .contentType('text/html')
+      .send(indexHtml)
+      .end()
+  })
+
+  await new Promise(resolve => app.listen(3000, resolve))
+}
+
+createServer()
+  .then(() => console.log('Server listening at http://localhost:3000'))
+  .catch(e => console.error('Failed to start server:\n', e))

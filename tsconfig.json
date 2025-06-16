@@ -5,11 +5,17 @@
     "jsx": "react-jsx",
     "lib": ["ES2022", "DOM", "DOM.Iterable"],
     "noEmit": true,
+    "experimentalDecorators": false,
 
     // Module resolution
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "isolatedModules": true,
     "moduleResolution": "bundler",
+
+    "paths": {
+      "#lib/*": ["./src/lib/*.js"],
+      "#components/*": ["./src/components/*.js"]
+    }
   }
 }

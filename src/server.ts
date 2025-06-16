@@ -2,6 +2,7 @@ import express, { Application, Request, Response } from 'express'
 import fs from 'node:fs/promises'
 import path from 'node:path'
 import apiRouter from './api/router'
+import { closeDatabase } from '#lib/database'
 
 async function createServer () {
   const app: Application = express()
@@ -30,10 +31,14 @@ async function createServer () {
 
   await new Promise(resolve => {
     const server = app.listen(3000, resolve)
-    process.on('SIGTERM', () => {
+    process.on('SIGTERM', async () => {
       console.debug('SIGTERM signal received')
+
       console.info('Closing HTTP server...')
-      server.close()
+      await new Promise(resolve => server.close(resolve))
+
+      console.info('Closing database connection...')
+      await closeDatabase()
     })
   })
 }

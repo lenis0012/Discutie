@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
 import { anthropic } from '@ai-sdk/anthropic'
-import { generateText, streamText } from 'ai'
+import { streamText } from 'ai'
 
 export async function submitChat (req: Request, res: Response) {
   const result = streamText({

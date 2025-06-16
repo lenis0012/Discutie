@@ -4,6 +4,8 @@ import { createServer as createViteServer } from 'vite'
 import * as fs from 'node:fs/promises'
 import * as path from 'node:path'
 import apiRouter from './api/router'
+import { loadSettings } from '#lib/setting'
+import { migrateDatabase } from '#lib/database'
 
 const app: Application = express()
 const port = process.env.PORT || 3000
@@ -15,9 +17,10 @@ async function createServer () {
     },
     appType: 'custom'
   })
-
   app.use(vite.middlewares)
 
+  await migrateDatabase()
+  await loadSettings()
   app.use('/api', apiRouter)
 
   app.use('*all', async (req: Request, res: Response, next) => {

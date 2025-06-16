@@ -1,0 +1,13 @@
+name: 'discutie-local'
+
+services:
+  db:
+    image: postgres
+    restart: always
+    # set shared memory limit when using docker compose
+    shm_size: 128mb
+    environment:
+      POSTGRES_USER: discutie
+      POSTGRES_PASSWORD: discutie
+    ports:
+      - '5432:5432'

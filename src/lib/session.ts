@@ -2,8 +2,11 @@ import type { Request, Response } from 'express'
 import { Account } from '#lib/domain'
 import { createHmac } from 'node:crypto'
 import { setting } from '#lib/setting'
+import useSWR from 'swr'
+import { get } from '#lib/apiClient'
 
 export interface Session {
+  id: number
   username: string
   displayName: string
   role: string
@@ -37,6 +40,7 @@ function unsign (data: string) {
 
 export function applySession (account: Account, res: Response) {
   const session: Session = {
+    id: account.id,
     username: account.username,
     displayName: account.displayName,
     role: account.role
@@ -50,13 +54,13 @@ export function applySession (account: Account, res: Response) {
   })
 }
 
-export function retrieveSession (req: Request): Session {
+export function retrieveSession (req: Request): Session | null {
+  if (!req.headers.cookie) return null
   const cookies = req.headers.cookie.split(';')
   const sessionCookie = cookies.find(c => c.trim().startsWith('session='))
   if (!sessionCookie) {
     return null
   }
 
-  console.log(decodeURIComponent(sessionCookie.split('=')[1].trim()))
   return unsign(decodeURIComponent(sessionCookie.split('=')[1].trim()))
 }

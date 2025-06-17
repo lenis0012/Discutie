@@ -15,7 +15,8 @@
 
     "paths": {
       "#lib/*": ["./src/lib/*.js"],
-      "#components/*": ["./src/components/*.js"]
+      "#components/*": ["./src/components/*.js"],
+      "#admin/*": ["./admin/*.js"],
     }
   }
 }

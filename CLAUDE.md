@@ -13,14 +13,14 @@ and allow them to create, manage and continue conversations easily.
 This project is built as a Single Page Application using React with HeadlessUI and tailwind styling,
 and a restful API using Express and a database powered by postgres.
 
-## Development Commands
+## UI Theme / Look and feel
 
-- `npm run dev` - Start development server with hot module replacement
-- `npm run build` - Build for production
-- `npm run lint`
+The user interface should be modern, trendy and uses a vibrant blue as the primary color.
+The UI should respond to the user's theme automatically using Tailwind's dark mode
 
 ## Code Style
 
-- Uses modern React functional components with hooks
-- ES6+ JavaScript (no TypeScript currently configured)
+- Modern React functional components with hooks
+- TypeScript and ESNext
+- JavaScript Standard Style
 

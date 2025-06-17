@@ -1,30 +1,58 @@
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 import Sidebar from './Sidebar'
-import ChatContainer from './ChatContainer.js'
-import ChatInput from './ChatInput'
+import ChatContainer from './ChatContainer'
+import ChatInput from './ChatInput.js'
 import { useChat } from '@ai-sdk/react'
 import { generateId } from 'ai'
+import { Conversation, Message } from '#lib/domain'
+import { v4 as uuid } from 'uuid'
+import { mutate } from 'swr'
+import { get } from '#lib/apiClient'
+
+interface ChatLayoutProps {
+  conversation?: Conversation
+}
 
 export default function ChatLayout () {
-  const { messages, append } = useChat({
-    initialMessages: [
-      {
-        id: generateId(),
-        content: 'Hello! I\'m your AI assistant. How can I help you today?',
-        role: 'assistant'
-      }
-    ],
+  const [currentConversation, setCurrentConversation] = useState<Conversation | null>(null)
+  const { messages, append, id: actualChatId } = useChat({
+    id: currentConversation?.id,
+    generateId: () => uuid(),
+    initialMessages: currentConversation
+      ? currentConversation.messages?.map(msg => ({ id: String(msg.id), content: msg.body, role: msg.role }))
+      : [
+          {
+            id: '1',
+            content: 'Hello! I\'m your AI assistant. How can I help you today?',
+            role: 'assistant'
+          }
+        ],
     streamProtocol: 'text'
   })
   const [sidebarOpen, setSidebarOpen] = useState(true)
 
-  const handleSendMessage = async (content) => {
+  const handleSendMessage = useCallback(async (content, modelId) => {
     await append({
       id: generateId(),
       content,
       role: 'user'
+    }, {
+      body: {
+        modelId,
+        conversationId: currentConversation?.id || actualChatId
+      }
     })
-  }
+    mutate('/api/conversations/me')
+  }, [])
+
+  const handleActivation = useCallback(async (conversation: Conversation) => {
+    conversation.messages = await get<Message[]>(`/api/conversations/${conversation.id}/messages`)
+    setCurrentConversation(conversation)
+  }, [])
+
+  const handleNew = useCallback(() => {
+    setCurrentConversation(null)
+  }, [])
 
   return (
     <div className='flex h-screen bg-gray-50 dark:bg-gray-900'>
@@ -33,6 +61,9 @@ export default function ChatLayout () {
         <Sidebar
           isOpen={sidebarOpen}
           onClose={() => setSidebarOpen(false)}
+          onActivate={handleActivation}
+          onNew={handleNew}
+          activeConversation={currentConversation?.id}
         />
       </div>
 

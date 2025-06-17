@@ -1,9 +1,10 @@
 import express, { Application, Request, Response } from 'express'
-import * as process from 'node:process'
 import { createServer as createViteServer } from 'vite'
 import * as fs from 'node:fs/promises'
 import * as path from 'node:path'
+import process from 'node:process'
 import apiRouter from './api/router'
+import adminApiRouter from '#admin/api/router'
 import { loadSettings } from '#lib/setting'
 import { migrateDatabase } from '#lib/database'
 
@@ -22,15 +23,20 @@ async function createServer () {
   await migrateDatabase()
   await loadSettings()
   app.use('/api', apiRouter)
+  app.use('/admin/api', adminApiRouter)
 
   app.use('*all', async (req: Request, res: Response, next) => {
     const url = req.originalUrl
 
+    const indexPath = url.startsWith('/admin')
+      ? path.resolve('admin/index.html')
+      : path.resolve('index.html')
+
     try {
       // 1. Read index.html
       let template = await fs.readFile(
-        path.resolve('index.html'),
-        'utf-8',
+        path.resolve(indexPath),
+        'utf-8'
       )
 
       // 2. Apply Vite HTML transforms. This injects the Vite HMR client,
@@ -48,8 +54,12 @@ async function createServer () {
     }
   })
 
-  app.listen(port, () => {
-    console.log(`Example app listening at http://localhost:${port}`)
+  const server = app.listen(port, () => {
+    console.log(`App listening at http://localhost:${port}`)
+  })
+
+  process.on('SIGINT', () => {
+    server.close()
   })
 }
 

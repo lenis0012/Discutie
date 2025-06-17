@@ -2,7 +2,8 @@ import express, { Application, Request, Response } from 'express'
 import fs from 'node:fs/promises'
 import path from 'node:path'
 import apiRouter from './api/router'
-import { closeDatabase } from '#lib/database'
+import { closeDatabase, migrateDatabase } from '#lib/database'
+import { loadSettings } from '#lib/setting'
 
 async function createServer () {
   const app: Application = express()
@@ -13,6 +14,8 @@ async function createServer () {
   }))
 
   // API
+  await migrateDatabase()
+  await loadSettings()
   app.use('/api', apiRouter)
 
   // SPA Catch-All
@@ -37,8 +40,8 @@ async function createServer () {
       console.info('Closing HTTP server...')
       await new Promise(resolve => server.close(resolve))
 
-      console.info('Closing database connection...')
-      await closeDatabase()
+      // console.info('Closing database connection...')
+      // await closeDatabase()
     })
   })
 }

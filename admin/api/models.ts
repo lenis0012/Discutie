@@ -32,7 +32,7 @@ class ModelAdminController {
 
     if (provider.type === 'anthropic') {
       model.data = {
-        anthropicId: provider.data.apiKey
+        anthropicId: name
       }
     }
 
@@ -59,7 +59,7 @@ class ModelAdminController {
 
     if (provider.type === 'anthropic') {
       model.data = {
-        anthropicId: provider.data.apiKey
+        anthropicId: name
       }
     }
 

@@ -114,52 +114,6 @@ export default function AddEditModel ({
       </div>
 
       <form onSubmit={handleSubmit} className='px-6 py-6 space-y-6'>
-        {/* Model Name */}
-        <div>
-          <label htmlFor='model-name' className='block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2'>
-            Model Name
-          </label>
-          <input
-            id='model-name'
-            type='text'
-            value={formData.name}
-            onChange={(e) => handleInputChange('name', e.target.value)}
-            className={`block w-full px-3 py-2 border rounded-md shadow-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-              errors.name ? 'border-red-300 dark:border-red-600' : 'border-gray-300 dark:border-gray-600'
-            }`}
-            placeholder='e.g., gpt-4, claude-3-opus'
-          />
-          {errors.name && (
-            <p className='mt-1 text-sm text-red-600 dark:text-red-400'>{errors.name}</p>
-          )}
-          <p className='mt-1 text-sm text-gray-500 dark:text-gray-400'>
-            The technical model name as used by the provider
-          </p>
-        </div>
-
-        {/* Display Name */}
-        <div>
-          <label htmlFor='display-name' className='block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2'>
-            Display Name
-          </label>
-          <input
-            id='display-name'
-            type='text'
-            value={formData.displayName}
-            onChange={(e) => handleInputChange('displayName', e.target.value)}
-            className={`block w-full px-3 py-2 border rounded-md shadow-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-              errors.displayName ? 'border-red-300 dark:border-red-600' : 'border-gray-300 dark:border-gray-600'
-            }`}
-            placeholder='e.g., GPT-4, Claude 3 Opus'
-          />
-          {errors.displayName && (
-            <p className='mt-1 text-sm text-red-600 dark:text-red-400'>{errors.displayName}</p>
-          )}
-          <p className='mt-1 text-sm text-gray-500 dark:text-gray-400'>
-            The user-friendly name shown in the interface
-          </p>
-        </div>
-
         {/* Provider Selection */}
         <div>
           <label htmlFor='provider' className='block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2'>
@@ -203,6 +157,52 @@ export default function AddEditModel ({
           {errors.providerId && (
             <p className='mt-1 text-sm text-red-600 dark:text-red-400'>{errors.providerId}</p>
           )}
+        </div>
+
+        {/* Display Name */}
+        <div>
+          <label htmlFor='display-name' className='block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2'>
+            Display Name
+          </label>
+          <input
+            id='display-name'
+            type='text'
+            value={formData.displayName}
+            onChange={(e) => handleInputChange('displayName', e.target.value)}
+            className={`block w-full px-3 py-2 border rounded-md shadow-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+              errors.displayName ? 'border-red-300 dark:border-red-600' : 'border-gray-300 dark:border-gray-600'
+            }`}
+            placeholder='e.g., GPT-4, Claude 3 Opus'
+          />
+          {errors.displayName && (
+            <p className='mt-1 text-sm text-red-600 dark:text-red-400'>{errors.displayName}</p>
+          )}
+          <p className='mt-1 text-sm text-gray-500 dark:text-gray-400'>
+            The user-friendly name shown in the interface
+          </p>
+        </div>
+
+        {/* Model Name */}
+        <div>
+          <label htmlFor='model-name' className='block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2'>
+            Model Name
+          </label>
+          <input
+            id='model-name'
+            type='text'
+            value={formData.name}
+            onChange={(e) => handleInputChange('name', e.target.value)}
+            className={`block w-full px-3 py-2 border rounded-md shadow-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+              errors.name ? 'border-red-300 dark:border-red-600' : 'border-gray-300 dark:border-gray-600'
+            }`}
+            placeholder='e.g., gpt-4, claude-3-opus'
+          />
+          {errors.name && (
+            <p className='mt-1 text-sm text-red-600 dark:text-red-400'>{errors.name}</p>
+          )}
+          <p className='mt-1 text-sm text-gray-500 dark:text-gray-400'>
+            The technical model name as used by the provider
+          </p>
         </div>
 
         {/* Context Length */}

@@ -83,7 +83,7 @@ export default function ModelsProviders () {
       ? [...previous, provider]
       : [...previous.slice(0, existingIndex), provider, ...previous.slice(existingIndex + 1)])
 
-    setViewMode(selectedProvider ? 'edit-provider' : 'add-provider')
+    setViewMode(selectedProvider ? 'edit-model' : 'add-model')
   }
 
   const getProviderName = (providerId: string) => {
@@ -189,7 +189,7 @@ export default function ModelsProviders () {
                       <PencilIcon className='h-4 w-4' />
                     </button>
                     {/* TODO: Actually check againdt real default model */}
-                    {model.isDefault && (
+                    {!model.isDefault && (
                       <button
                         onClick={() => handleDeleteModel(model.id)}
                         className='text-gray-400 hover:text-red-600 dark:hover:text-red-400 cursor-pointer'

@@ -21,11 +21,11 @@ export default function ChatLayout () {
     initialMessages: currentConversation
       ? currentConversation.messages?.map(msg => ({ id: String(msg.id), content: msg.body, role: msg.role }))
       : [
-          {
-            id: '1',
-            content: 'Hello! I\'m your AI assistant. How can I help you today?',
-            role: 'assistant'
-          }
+          // {
+          //   id: '1',
+          //   content: 'Hello! I\'m your AI assistant. How can I help you today?',
+          //   role: 'assistant'
+          // }
         ],
     streamProtocol: 'text'
   })

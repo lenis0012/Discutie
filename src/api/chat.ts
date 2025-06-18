@@ -17,8 +17,8 @@ function generateTitle (messages: AIMessage[]) {
   if (the >= 0 && (the < start || start === 0)) start = the + ' the '.length
   if (of >= 0 && (of < start || start === 0)) start = of + ' of '.length
 
-  let title = message.content.substring(start, Math.min(message.content.length, start + 25)).trim()
-  if (title.length >= 25 && title.indexOf(' ') !== 0) {
+  let title = message.content.substring(start, Math.min(message.content.length, start + 50)).trim()
+  if (title.length >= 50 && title.indexOf(' ') !== 0) {
     title = title.substring(0, title.lastIndexOf(' '))
   }
   return title

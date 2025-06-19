@@ -24,10 +24,12 @@ name: 'discutie'
 
 services:
   server:
-    image: ghcr.io/lenis0012/discutie:0.0.2
+    image: ghcr.io/lenis0012/discutie:0.0.5
     restart: unless-stopped
     ports:
       - '3000:3000'
+    depends_on:
+      - db
     environment:
       PGHOST: 'db'
       # Default admin password

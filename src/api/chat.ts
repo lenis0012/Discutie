@@ -56,7 +56,7 @@ export async function submitChat (req: Request, res: Response) {
 
   const conversationRes = await sql<Conversation>`select * from conversation where id = ${req.body.conversationId}`
   if (!validateUuid(req.body.conversationId) || !req.body.modelId ||
-    (conversationRes.rowCount >= 1 && conversationRes.rows[0].accountId !== session.id)) {
+    (conversationRes.rowCount >= 1 && String(conversationRes.rows[0].accountId) !== String(session.id))) {
     res.status(400).end()
     return
   }

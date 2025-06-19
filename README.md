@@ -24,7 +24,7 @@ name: 'discutie'
 
 services:
   server:
-    image: ghcr.io/lenis0012/discutie:0.0.1
+    image: ghcr.io/lenis0012/discutie:0.0.2
     restart: unless-stopped
     ports:
       - '3000:3000'
@@ -33,7 +33,7 @@ services:
       # Default admin password
       ADMIN_PASSWORD: 'password'
   db:
-    image: pgvector/pgvector:16
+    image: pgvector/pgvector:pg16
     restart: always
     # set shared memory limit when using docker compose
     shm_size: 128mb

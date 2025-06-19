@@ -63,7 +63,7 @@ export async function migrateDatabase () {
         username: 'admin',
         displayName: 'Admin',
         role: 'admin',
-        passwordHash: await hash('password')
+        passwordHash: await hash(process.env.ADMIN_PASSWORD || 'password')
       })
     }
   })

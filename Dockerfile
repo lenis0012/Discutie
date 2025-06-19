@@ -9,7 +9,7 @@ FROM node:22
 LABEL authors="lenis0012"
 
 COPY --from=builder /src/dist /app/dist
-COPY ./migrations /app/
+COPY ./migrations /app/migrations
 
 WORKDIR /app
 ENTRYPOINT ["node", "--enable-source-maps", "dist/server.cjs"]

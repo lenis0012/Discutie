@@ -2,6 +2,7 @@ import express, { Application, Request, Response } from 'express'
 import fs from 'node:fs/promises'
 import path from 'node:path'
 import apiRouter from './api/router'
+import adminApiRouter from '#admin/api/router'
 import { migrateDatabase } from '#lib/database'
 import { loadSettings } from '#lib/setting'
 
@@ -22,6 +23,7 @@ async function createServer () {
     next()
   })
   app.use('/api', apiRouter)
+  app.use('/admin/api', adminApiRouter)
 
   // SPA Catch-All
   const indexHtml = await fs.readFile(path.resolve('dist', 'index.html'))
@@ -31,9 +33,13 @@ async function createServer () {
       return
     }
 
+    const pageHtml = req.url.startsWith('/admin')
+      ? (await fs.readFile(path.resolve('admin/index.html')))
+      : indexHtml
+
     res
       .contentType('text/html')
-      .send(indexHtml)
+      .send(pageHtml)
       .end()
   })
 

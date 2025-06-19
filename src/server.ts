@@ -2,7 +2,7 @@ import express, { Application, Request, Response } from 'express'
 import fs from 'node:fs/promises'
 import path from 'node:path'
 import apiRouter from './api/router'
-import { closeDatabase, migrateDatabase } from '#lib/database'
+import { migrateDatabase } from '#lib/database'
 import { loadSettings } from '#lib/setting'
 
 async function createServer () {
@@ -16,6 +16,11 @@ async function createServer () {
   // API
   await migrateDatabase()
   await loadSettings()
+  app.use('/api', (req, res, next) => {
+    const dt = new Date().toISOString()
+    console.log(`[${dt}] ${req.method} ${req.originalUrl}`)
+    next()
+  })
   app.use('/api', apiRouter)
 
   // SPA Catch-All

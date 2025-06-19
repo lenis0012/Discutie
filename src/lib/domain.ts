@@ -27,6 +27,7 @@ export interface Model {
   kind: 'text'
   displayName: string
   data?: ModelAnthropic & Record<string, any>
+  isDefault?: boolean // TODO: This should be a separate interface
 }
 
 export interface Conversation {
@@ -35,7 +36,7 @@ export interface Conversation {
   title: string
   modelId: string
   startedAt: Date | string
-  messages?: Message[]
+  messages?: Message[] // TODO: This should be a separate interface
 }
 
 export interface Message {

@@ -35,7 +35,7 @@ function prepareModel (model: Model, modelProvider: ModelProvider) {
   return null
 }
 
-async function insertMessage (conversation: Conversation, message: AIMessage) {
+async function insertMessage (conversation: Conversation, message: Partial<AIMessage>) {
   const result = await sql<any>`select count(*) from message where conversation_id = ${conversation.id}`
   const newMessage: Message = {
     conversationId: conversation.id,
@@ -63,7 +63,6 @@ export async function submitChat (req: Request, res: Response) {
 
   const { rows: [model], rowCount: nmodel } = await sql<Model>`select * from model where id = ${req.body.modelId}`
   if (nmodel === 0) {
-
     res.status(400).end()
     return
   }

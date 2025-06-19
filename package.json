@@ -9,9 +9,8 @@
     "build": "npm run build:client && npm run build:server",
     "build:client": "vite build",
     "build:server": "esbuild src/server.ts --bundle --minify --outfile=dist/server.cjs --platform=node --target=node22 --sourcemap",
-    "lint": "eslint .",
-    "start": "node --enable-source-maps dist/server.cjs",
-    "preview": "vite preview"
+    "lint": "eslint src admin",
+    "start": "node --enable-source-maps dist/server.cjs"
   },
   "imports": {
     "#components/*": "./src/components/*",

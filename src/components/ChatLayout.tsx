@@ -9,17 +9,15 @@ import { v4 as uuid } from 'uuid'
 import { mutate } from 'swr'
 import { get } from '#lib/apiClient'
 
-interface ChatLayoutProps {
-  conversation?: Conversation
-}
+type Role = 'user' | 'assistant' | 'system'
 
 export default function ChatLayout () {
+  const [newConversationId, setNewConversationId] = useState<string>(uuid())
   const [currentConversation, setCurrentConversation] = useState<Conversation | null>(null)
   const { messages, append, id: actualChatId } = useChat({
-    id: currentConversation?.id,
-    generateId: () => uuid(),
+    id: currentConversation?.id || newConversationId,
     initialMessages: currentConversation
-      ? currentConversation.messages?.map(msg => ({ id: String(msg.id), content: msg.body, role: msg.role }))
+      ? currentConversation.messages?.map(msg => ({ id: String(msg.id), content: msg.body, role: msg.role as Role }))
       : [
           // {
           //   id: '1',
@@ -39,11 +37,11 @@ export default function ChatLayout () {
     }, {
       body: {
         modelId,
-        conversationId: currentConversation?.id || actualChatId
+        conversationId: actualChatId
       }
     })
     mutate('/api/conversations/me')
-  }, [])
+  }, [actualChatId])
 
   const handleActivation = useCallback(async (conversation: Conversation) => {
     conversation.messages = await get<Message[]>(`/api/conversations/${conversation.id}/messages`)
@@ -51,6 +49,7 @@ export default function ChatLayout () {
   }, [])
 
   const handleNew = useCallback(() => {
+    setNewConversationId(uuid())
     setCurrentConversation(null)
   }, [])
 
@@ -63,7 +62,7 @@ export default function ChatLayout () {
           onClose={() => setSidebarOpen(false)}
           onActivate={handleActivation}
           onNew={handleNew}
-          activeConversation={currentConversation?.id}
+          activeConversation={actualChatId}
         />
       </div>
 

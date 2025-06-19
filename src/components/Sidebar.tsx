@@ -61,13 +61,13 @@ export default function Sidebar ({ isOpen, onClose, onNew, onActivate, activeCon
             <div
               key={conversation.id}
               onClick={() => onActivate(conversation)}
-              className={`p-3 rounded-lg cursor-pointer transition-colors mb-2 ${
+              className={`p-3 rounded-lg cursor-pointer transition-colors mb-1 leading-0 ${
                 activeConversation === conversation.id
                   ? 'bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-700'
                   : 'hover:bg-gray-50 dark:hover:bg-gray-700'
               }`}
             >
-              <h3 className='font-medium text-gray-900 dark:text-gray-100 text-sm truncate mb-1'>
+              <h3 className='font-medium text-gray-900 dark:text-gray-100 text-sm truncate mb-0'>
                 {conversation.title}
               </h3>
               {/*<p className='text-xs text-gray-500 dark:text-gray-400 truncate mb-1'>*/}

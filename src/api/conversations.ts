@@ -7,7 +7,7 @@ class ConversationController {
   async getMessages (req: Request, res: Response) {
     const conversationId = req.params.conversationId
     const session = retrieveSession(req)
-    if(!session) {
+    if (!session) {
       res.status(401).end()
       return
     }

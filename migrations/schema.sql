@@ -32,7 +32,8 @@ create table if not exists conversation (
 );
 
 create table if not exists message (
-    conversation_id uuid not null,
+    conversation_id uuid not null references conversation(id)
+        on delete cascade,
     id bigint not null,
     role varchar not null,
     body text not null,

@@ -34,7 +34,7 @@ async function createServer () {
     }
 
     const pageHtml = req.url.startsWith('/admin')
-      ? (await fs.readFile(path.resolve('admin/index.html')))
+      ? (await fs.readFile(path.resolve('dist', 'admin', 'index.html')))
       : indexHtml
 
     res

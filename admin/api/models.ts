@@ -75,9 +75,17 @@ class ModelAdminController {
       return
     }
 
-    res
-      .status(204)
-      .end()
+    res.status(204).end()
+  }
+
+  async deleteModel (req: Request, res: Response) {
+    const { rowCount } = await sql`delete from model where id = ${req.params.id}`
+    if (rowCount === 0) {
+      res.status(404).end()
+      return
+    }
+
+    res.status(204).end()
   }
 }
 

@@ -36,7 +36,7 @@ async function submit<T, E> (method: string, url: string, body?: any): Promise<A
   const response = await fetch(url, {
     method,
     headers: {
-      'Content-Type': body ? 'application/json' : undefined
+      'Content-Type': body && 'application/json'
     },
     body: body ? JSON.stringify(body) : undefined
   })
@@ -67,6 +67,6 @@ export async function put<T, E> (url: string, body: any): Promise<ApiResponse<T,
   return submit('PUT', url, body)
 }
 
-export async function del<T, E> (url: string, body: any): Promise<ApiResponse<T, E>> {
+export async function del<T, E> (url: string): Promise<ApiResponse<T, E>> {
   return submit('DELETE', url)
 }

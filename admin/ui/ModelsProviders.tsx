@@ -4,7 +4,7 @@ import AddEditModel from './AddEditModel'
 import AddEditProvider from './AddEditProvider'
 import useSWR from 'swr'
 import { Model, ModelProvider } from '#lib/domain'
-import { get } from '#lib/apiClient'
+import { get, del } from '#lib/apiClient'
 
 // interface ModelProvider {
 //   id: string
@@ -43,8 +43,8 @@ export default function ModelsProviders () {
 
   const handleDeleteModel = async (id: string) => {
     if (confirm('Are you sure you want to delete this model?')) {
-      // TODO: Actually delete model...
-      await mutateModels(prev => prev.filter(model => model.id !== id))
+      await del(`/api/models/${id}`)
+      await mutateModels(prev => prev.filter(model => model.id !== id), { revalidate: false })
     }
   }
 
@@ -77,7 +77,6 @@ export default function ModelsProviders () {
   }
 
   const handleSaveProvider = async (provider: ModelProvider) => {
-    // TODO: Implement provider save logic
     const existingIndex = providers.findIndex(p => p.id === provider.id)
     await mutateProviders(previous => existingIndex === -1
       ? [...previous, provider]

@@ -1,4 +1,20 @@
 @import "tailwindcss";
+@import 'highlight.js/styles/dark.css' screen and (prefers-color-scheme: dark);
+@import 'highlight.js/styles/default.css' screen and (prefers-color-scheme: light);
+
+@plugin "@tailwindcss/typography";
+
+.prose p:first-child {
+  margin-top: 0 !important;
+}
+
+.prose p:last-child {
+  margin-bottom: 0;
+}
+
+.prose code {
+  background: rgba(0, 0, 0, 0) !important;
+}
 
 :root {
   --primary-blue: #2563eb;

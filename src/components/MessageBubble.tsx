@@ -1,4 +1,20 @@
 import { UIMessage } from 'ai'
+import { useMemo } from 'react'
+import { Marked } from 'marked'
+import DOMPurify from 'dompurify'
+import { markedHighlight } from 'marked-highlight'
+import hljs from 'highlight.js'
+
+const marked = new Marked(
+  markedHighlight({
+    emptyLangClass: 'hljs',
+    langPrefix: 'hljs language-',
+    highlight (code, lang, info) {
+      const language = hljs.getLanguage(lang) ? lang : 'plaintext'
+      return hljs.highlight(code, { language }).value
+    }
+  })
+)
 
 export default function MessageBubble ({ message }: { message: UIMessage }) {
   const isUser = message.role === 'user'
@@ -10,6 +26,10 @@ export default function MessageBubble ({ message }: { message: UIMessage }) {
       minute: '2-digit'
     })
   }
+
+  const messageHtml = useMemo(() => {
+    return DOMPurify.sanitize(marked.parse(message.content) as string)
+  }, [message.content])
 
   return (
     <div className={`flex gap-3 ${isUser ? 'flex-row-reverse' : ''}`}>
@@ -30,23 +50,24 @@ export default function MessageBubble ({ message }: { message: UIMessage }) {
       </div>
 
       {/* Message Content */}
-      <div className={`flex-1 max-w-3xl ${isUser ? 'flex flex-col items-end' : ''}`}>
+      <div className={`flex-1 max-w-4xl ${isUser ? 'flex flex-col items-end' : ''}`}>
         <div className={`rounded-2xl px-4 py-3 ${
           isUser
             ? 'bg-blue-600 text-white'
             : 'bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-gray-100'
         }`}
         >
-          <div className='prose prose-sm max-w-none'>
-            {message.content.split('\n').map((line, index) => (
-              <p
-                key={index} className={`${index === 0 ? 'mt-0' : ''} ${
-                isUser ? 'text-white' : 'text-gray-900 dark:text-gray-100'
-              }`}
-              >
-                {line || '\u00A0'}
-              </p>
-            ))}
+          <div className='prose dark:prose-invert max-w-none'>
+            {/*{message.content.split('\n').map((line, index) => (*/}
+            {/*  <p*/}
+            {/*    key={index} className={`${index === 0 ? 'mt-0' : ''} ${*/}
+            {/*    isUser ? 'text-white' : 'text-gray-900 dark:text-gray-100'*/}
+            {/*  }`}*/}
+            {/*  >*/}
+            {/*    {line || '\u00A0'}*/}
+            {/*  </p>*/}
+            {/*))}*/}
+            <article className={`${isUser ? 'text-white' : 'text-gray-900 dark:text-gray-100'}`} dangerouslySetInnerHTML={{ __html: messageHtml }} />
           </div>
         </div>
 
@@ -65,25 +86,10 @@ export default function MessageBubble ({ message }: { message: UIMessage }) {
           <button
             className='p-1.5 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors group'
             title='Copy message'
+            onClick={() => navigator.clipboard.writeText(message.content)}
           >
             <svg className='w-4 h-4 text-gray-400 dark:text-gray-500 group-hover:text-gray-600 dark:group-hover:text-gray-300' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
               <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z' />
-            </svg>
-          </button>
-          <button
-            className='p-1.5 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors group'
-            title='Like message'
-          >
-            <svg className='w-4 h-4 text-gray-400 dark:text-gray-500 group-hover:text-green-500' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
-              <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905 0 .714-.211 1.412-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2.5' />
-            </svg>
-          </button>
-          <button
-            className='p-1.5 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors group'
-            title='Dislike message'
-          >
-            <svg className='w-4 h-4 text-gray-400 dark:text-gray-500 group-hover:text-red-500' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
-              <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M10 14H5.236a2 2 0 01-1.789-2.894l3.5-7A2 2 0 018.736 3h4.018c.163 0 .326.02.485.06L17 4m-7 10v5a2 2 0 002 2h.095c.5 0 .905-.405.905-.905 0-.714.211-1.412.608-2.006L17 13V4m-7 10h2m5-10h2a2 2 0 012 2v6a2 2 0 01-2 2h-2.5' />
             </svg>
           </button>
         </div>

@@ -24,7 +24,7 @@ name: 'discutie'
 
 services:
   server:
-    image: ghcr.io/lenis0012/discutie:0.0.6
+    image: ghcr.io/lenis0012/discutie:0.0.7
     restart: unless-stopped
     ports:
       - '3000:3000'

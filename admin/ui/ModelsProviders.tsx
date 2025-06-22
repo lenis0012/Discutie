@@ -43,7 +43,7 @@ export default function ModelsProviders () {
 
   const handleDeleteModel = async (id: string) => {
     if (confirm('Are you sure you want to delete this model?')) {
-      await del(`/api/models/${id}`)
+      await del(`/admin/api/models/${id}`)
       await mutateModels(prev => prev.filter(model => model.id !== id), { revalidate: false })
     }
   }
